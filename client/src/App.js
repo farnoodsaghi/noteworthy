@@ -14,7 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
-          <Route path="note/" element={<Home />}>
+          <Route path="notes" element={<Home />} />
+          <Route path="notes/:folderId/" element={<Home />}>
             <Route path=":id" element={<SingleNote />} />
           </Route>
           <Route path="login" element={<Login />} />

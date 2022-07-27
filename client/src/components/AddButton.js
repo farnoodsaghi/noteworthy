@@ -6,17 +6,22 @@ import { Icon } from "@iconify/react";
 import "./add-button.scss";
 
 const SearchBar = () => {
-  const { setNotesList, setCurrentNote } = useGlobalContext();
+  const { setNotesList, setCurrentNote, currentFolder } = useGlobalContext();
 
   const navigate = useNavigate();
 
   const handleAddNote = () => {
-    const newNote = { id: uuidv4(), title: "# ", content: "" };
+    const newNote = {
+      id: uuidv4(),
+      title: "# ",
+      content: "",
+      folderId: currentFolder.id,
+    };
     setNotesList((prevVal) => {
       return [...prevVal, newNote];
     });
     setCurrentNote(newNote);
-    navigate(`/note/${newNote.id}`);
+    navigate(`/notes/${currentFolder.id}/${newNote.id}`);
   };
 
   return (

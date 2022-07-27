@@ -5,7 +5,7 @@ import "./note.scss";
 import removeMarkdown from "remove-markdown";
 
 const Note = ({ id, title, content }) => {
-  const { findNote, currentNote } = useGlobalContext();
+  const { findNote, currentNote, currentFolder } = useGlobalContext();
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Note = ({ id, title, content }) => {
 
   return (
     <article className={`container ${isActive && "active"}`}>
-      <Link to={`/note/${id}`} className="note-links">
+      <Link to={`/notes/${currentFolder.id}/${id}`} className="note-links">
         <div className="note-list-item-container">
           <li onClick={() => findNote(id)}>
             <h3>

@@ -4,6 +4,7 @@ import NotesList from "../components/NotesList";
 import AddButton from "../components/AddButton";
 import { Outlet } from "react-router-dom";
 import "./home.scss";
+import Modal from "../components/Modal";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
         <NotesList />
         <AddButton />
       </div>
+      <Modal />
       <Outlet />
     </main>
   );

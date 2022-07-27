@@ -1,0 +1,9 @@
+@import "../global.scss";
+
+.folder-link {
+  text-decoration: none;
+  color: $secondary-color;
+  .folder-item {
+    cursor: pointer;
+  }
+}

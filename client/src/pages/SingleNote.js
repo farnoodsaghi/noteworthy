@@ -7,7 +7,7 @@ import "./single-note.scss";
 
 const SingleNote = () => {
   const { currentNote, setUpdatedNote } = useGlobalContext();
-  const { id, title, content } = currentNote;
+  const { id, title, content, folderId } = currentNote;
   const [note, setNote] = useState(null);
   const [readerMode, setReaderMode] = useState(false);
 
@@ -28,6 +28,7 @@ const SingleNote = () => {
       id,
       title: newTitle,
       content: newContent,
+      folderId,
     });
   }, [note]);
 
