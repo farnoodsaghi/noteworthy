@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 const AppContext = createContext(null);
 
 const AppProvider = ({ children }) => {
-  const defaultFolder = { id: uuidv4(), name: "All Notes" };
-
+  const [defaultFolder, setDefaultFolder] = useState({
+    id: uuidv4(),
+    name: "All Notes",
+  });
   const [searchInput, setSearchInput] = useState("");
   const [notesList, setNotesList] = useState([]);
   const [currentNote, setCurrentNote] = useState({});
