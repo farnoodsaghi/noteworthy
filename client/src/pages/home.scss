@@ -1,0 +1,20 @@
+@import "../global.scss";
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 36%;
+  height: 100%;
+  min-height: 100vh;
+  border-right: 0.094rem solid $primary-color !important;
+
+  > * {
+    width: 100%;
+  }
+
+  button {
+    align-self: flex-end;
+  }
+}

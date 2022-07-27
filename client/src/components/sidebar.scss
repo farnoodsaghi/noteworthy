@@ -1,0 +1,11 @@
+@import "../global.scss";
+
+.sidebar {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  width: 22%;
+  height: 100%;
+  background-color: $primary-color;
+  color: $secondary-color;
+}

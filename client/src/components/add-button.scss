@@ -1,0 +1,21 @@
+@import "../global.scss";
+
+.add-btn {
+  position: absolute;
+  bottom: 3rem;
+  margin-right: 2rem;
+  width: 5rem !important;
+  height: 5rem !important;
+  border-radius: 50%;
+  z-index: 1000;
+  background-color: $primary-color;
+  color: $secondary-color;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: inherit;
+
+  svg {
+    font-size: 1.688rem;
+  }
+}

@@ -1,0 +1,29 @@
+@import "../global.scss";
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.563rem 5rem 2.5rem;
+  border-bottom: 0.125rem solid $primary-color;
+  padding: 0.188rem;
+
+  * {
+    display: inline-block;
+  }
+
+  input {
+    height: 1.875rem;
+    margin-left: 0.75rem;
+    font-size: 1.125rem;
+    color: $primary-color;
+
+    &::placeholder {
+      color: $tertiary-color;
+    }
+  }
+
+  .search-icon {
+    font-size: 1.5rem;
+  }
+}
