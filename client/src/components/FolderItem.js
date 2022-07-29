@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import "./folder-item.scss";
 
 const FolderItem = ({ id, name }) => {
-  const { getNoteByFolder, setCurrentFolder } = useGlobalContext();
+  const { getNoteByFolder, setCurrentFolder, currentFolder } =
+    useGlobalContext();
 
   const handleClick = () => {
     setCurrentFolder({ id, name });
@@ -14,7 +15,10 @@ const FolderItem = ({ id, name }) => {
   return (
     <Link className="folder-link" to={`/notes/${id}`}>
       <div className="folder-item" onClick={handleClick}>
-        <h2>{name}</h2>
+        <span
+          className={`folder-border ${currentFolder.id === id && "active"}`}
+        ></span>
+        <h2 className="folder-title">{name}</h2>
       </div>
     </Link>
   );
