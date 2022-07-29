@@ -6,8 +6,10 @@ import "./sidebar.scss";
 const Sidebar = () => {
   return (
     <section className="sidebar">
-      <h2>Sidebar</h2>
-      <CreateFolderButton />
+      <div className="logo-container">
+        <h1 className="logo">noteworthy</h1>
+        <CreateFolderButton />
+      </div>
       <FolderList />
     </section>
   );
