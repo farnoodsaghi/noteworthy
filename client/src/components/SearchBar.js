@@ -9,6 +9,11 @@ const SearchBar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  const handleChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="search-bar">
@@ -18,7 +23,7 @@ const SearchBar = () => {
           name="search"
           value={searchInput}
           placeholder="Search Notes"
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={handleChange}
         />
       </div>
     </form>

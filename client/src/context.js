@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const AppContext = createContext(null);
 
 const AppProvider = ({ children }) => {
-  const [defaultFolder, setDefaultFolder] = useState({
+  const defaultFolderRef = useRef({
     id: uuidv4(),
     name: "All Notes",
   });
@@ -13,9 +13,10 @@ const AppProvider = ({ children }) => {
   const [currentNote, setCurrentNote] = useState({});
   const [updatedNote, setUpdatedNote] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentFolder, setCurrentFolder] = useState(defaultFolder);
+  const [currentFolder, setCurrentFolder] = useState(defaultFolderRef.current);
   const [noteByFolderList, setNoteByFolderList] = useState([]);
-  const [folderList, setFolderList] = useState([defaultFolder]);
+  const [folderList, setFolderList] = useState([defaultFolderRef.current]);
+  const notesRefList = useRef(noteByFolderList);
 
   const findNote = (id) => {
     const note = notesList.find((note) => {
@@ -38,13 +39,31 @@ const AppProvider = ({ children }) => {
 
   const getNoteByFolder = (id) => {
     setNoteByFolderList(() => {
-      if (defaultFolder.id === id) {
-        return notesList;
-      }
-      return notesList.filter((note) => {
-        return note.folderId === id;
-      });
+      const list =
+        defaultFolderRef.current.id === id
+          ? notesList
+          : notesList.filter((note) => {
+              return note.folderId === id;
+            });
+
+      notesRefList.current = list;
+      return list;
     });
+  };
+
+  const searchNote = () => {
+    console.log(searchInput);
+    searchInput
+      ? setNoteByFolderList(() => {
+          return notesRefList.current.filter((note) => {
+            const { title, content } = note;
+            return (
+              title.toLowerCase().includes(searchInput.toLowerCase()) ||
+              content.toLowerCase().includes(searchInput.toLowerCase())
+            );
+          });
+        })
+      : getNoteByFolder(currentFolder.id);
   };
 
   useEffect(() => {
@@ -54,6 +73,10 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     getNoteByFolder(currentFolder.id);
   }, [notesList]);
+
+  useEffect(() => {
+    searchNote();
+  }, [searchInput]);
 
   return (
     <AppContext.Provider
@@ -74,7 +97,7 @@ const AppProvider = ({ children }) => {
         noteByFolderList,
         setCurrentFolder,
         currentFolder,
-        defaultFolder,
+        searchNote,
       }}
     >
       {children}
