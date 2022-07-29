@@ -1,4 +1,5 @@
 @import "../global.scss";
+@import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
 
 .sidebar {
   display: flex;
@@ -8,4 +9,19 @@
   height: 100%;
   background-color: $primary-color;
   color: $secondary-color;
+
+  .logo-container {
+    margin: 1.563rem 2.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+      font-family: "satisfy";
+      font-size: 1.75rem;
+      font-style: normal;
+      font-weight: 400;
+      display: inline-block;
+    }
+  }
 }

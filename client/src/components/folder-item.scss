@@ -3,7 +3,37 @@
 .folder-link {
   text-decoration: none;
   color: $secondary-color;
+  display: flex;
+  text-align: left;
+
+  &:first-child {
+    margin-top: 1.2rem;
+  }
+
   .folder-item {
+    margin: 1.2rem 2.125rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .folder-border {
+      display: inline-block;
+      width: 0;
+      height: 1.3rem;
+      border-left: 0.188rem solid $secondary-color;
+      visibility: hidden;
+
+      &.active {
+        visibility: visible;
+      }
+    }
+
+    .folder-title {
+      margin-left: 1.5rem;
+      letter-spacing: 0.03em;
+      display: inline-block;
+      font-size: 1.625rem;
+    }
   }
 }
