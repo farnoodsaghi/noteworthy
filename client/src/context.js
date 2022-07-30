@@ -19,7 +19,7 @@ const AppProvider = ({ children }) => {
   const notesRefList = useRef(noteByFolderList);
 
   const findNote = (id) => {
-    const note = notesList.find((note) => {
+    const note = noteByFolderList.find((note) => {
       return note.id === id;
     });
     setCurrentNote(note);
@@ -52,7 +52,6 @@ const AppProvider = ({ children }) => {
   };
 
   const searchNote = () => {
-    console.log(searchInput);
     searchInput
       ? setNoteByFolderList(() => {
           return notesRefList.current.filter((note) => {
