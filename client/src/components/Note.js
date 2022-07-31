@@ -17,22 +17,26 @@ const Note = ({ id, title, content }) => {
   }, [currentNote]);
 
   return (
-    <article className={`container ${isActive && "active"}`}>
-      <Link to={`/notes/${currentFolder.id}/${id}`} className="note-links">
-        <div className="note-list-item-container">
-          <li onClick={() => findNote(id)}>
-            <h3>
-              {title === "# " || title.replaceAll(" ", "") === ""
-                ? "A wonderful new note"
-                : removeMarkdown(title)}
-            </h3>
-            <p className="note-desc-preview">
-              {content ? removeMarkdown(content) : "Write away your sorrows..."}
-            </p>
-          </li>
+    <Link to={`/notes/${currentFolder.id}/${id}`} className="note-links">
+      <article className={`container ${isActive && "active"}`}>
+        <div className="note-list-item-outer-container">
+          <div className="note-list-item-inner-container">
+            <li onClick={() => findNote(id)}>
+              <h3>
+                {title === "# " || title.replaceAll(" ", "") === ""
+                  ? "A wonderful new note"
+                  : removeMarkdown(title)}
+              </h3>
+              <p className="note-desc-preview">
+                {content
+                  ? removeMarkdown(content)
+                  : "Write away your sorrows..."}
+              </p>
+            </li>
+          </div>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 };
 

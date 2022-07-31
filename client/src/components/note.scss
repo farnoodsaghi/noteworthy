@@ -1,5 +1,10 @@
 @import "../global.scss";
 
+.note-links {
+  text-decoration: none;
+  color: $primary-color;
+}
+
 .container {
   &.active {
     background-color: $primary-color;
@@ -9,20 +14,20 @@
     }
   }
 
-  .note-links {
+  .note-list-item-outer-container {
     display: flex;
-    text-decoration: none;
-    color: $primary-color;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0 5rem;
 
-    .note-list-item-container {
-      margin: auto 0;
+    .note-list-item-inner-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
       height: 5.75rem;
-      padding-top: 0.8rem;
     }
 
     .note-desc-preview {
