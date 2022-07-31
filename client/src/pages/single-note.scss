@@ -1,7 +1,34 @@
+@import "../global.scss";
+
 .note-content {
   width: 64%;
   height: 100%;
   float: left;
+
+  .note-btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 1.375rem 3rem;
+
+    .note-icon {
+      display: flex;
+      align-items: center;
+      font-size: 1.4rem;
+      padding: 0.4rem;
+      margin-bottom: 0.25rem;
+      border-radius: 0.35rem;
+      color: $tertiary-color;
+      cursor: pointer;
+
+      &.active,
+      &:last-child:active {
+        background-color: #c7c6c6;
+        color: $secondary-color;
+      }
+    }
+  }
 
   .note-body-markdown {
     font-size: 1.25rem;

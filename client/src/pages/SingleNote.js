@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { useNavigate, Navigate } from "react-router-dom";
+import { Icon } from "@iconify/react";
 import { useGlobalContext } from "../context";
 import "./single-note.scss";
 
@@ -49,8 +50,17 @@ const SingleNote = () => {
   }
   return (
     <section className="note-content">
-      <button onClick={() => setReaderMode(!readerMode)}>Toggle</button>
-      <button onClick={handleDelete}>Delete</button>
+      <div className="note-btn-container">
+        <span
+          className={`note-icon ${!readerMode && "active"}`}
+          onClick={() => setReaderMode(!readerMode)}
+        >
+          <Icon icon="ph:note-pencil-bold" />
+        </span>
+        <span className="note-icon" onClick={handleDelete}>
+          <Icon icon="eva:trash-outline" />
+        </span>
+      </div>
       {readerMode ? (
         <ReactMarkdown
           children={note.replace(/\n/gi, "\n &nbsp;")}
