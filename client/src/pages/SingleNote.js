@@ -2,20 +2,27 @@ import React, { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useGlobalContext } from "../context";
 import "./single-note.scss";
 
 const SingleNote = () => {
-  const { currentNote, setUpdatedNote } = useGlobalContext();
+  const { currentNote, setUpdatedNote, deleteNote, currentFolder } =
+    useGlobalContext();
+
   const { id, title, content, folderId } = currentNote;
   const [note, setNote] = useState(null);
   const [readerMode, setReaderMode] = useState(false);
-
+  const [isNoteNull, setIsNoteNull] = useState(false);
+  const navigate = useNavigate();
   const inputRef = useRef(null);
 
   useEffect(() => {
-    setNote(`${title}${content}`);
-    inputRef.current.focus();
+    setIsNoteNull(Object.keys(currentNote).length === 0);
+    if (Object.keys(currentNote).length !== 0) {
+      setNote(`${title}${content}`);
+      inputRef.current.focus();
+    }
   }, [currentNote]);
 
   useEffect(() => {
@@ -32,9 +39,18 @@ const SingleNote = () => {
     });
   }, [note]);
 
+  const handleDelete = () => {
+    deleteNote(currentNote.id);
+    navigate(`/notes/${currentFolder.id}`);
+  };
+
+  if (isNoteNull) {
+    return <Navigate to="/" />;
+  }
   return (
     <section className="note-content">
       <button onClick={() => setReaderMode(!readerMode)}>Toggle</button>
+      <button onClick={handleDelete}>Delete</button>
       {readerMode ? (
         <ReactMarkdown
           children={note.replace(/\n/gi, "\n &nbsp;")}

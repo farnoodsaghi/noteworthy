@@ -37,6 +37,15 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  const deleteNote = (id) => {
+    setNotesList((prev) => {
+      return prev.filter((note) => {
+        return note.id !== id;
+      });
+    });
+    setCurrentNote({});
+  };
+
   const getNoteByFolder = (id) => {
     setNoteByFolderList(() => {
       const list =
@@ -97,6 +106,7 @@ const AppProvider = ({ children }) => {
         setCurrentFolder,
         currentFolder,
         searchNote,
+        deleteNote,
       }}
     >
       {children}
