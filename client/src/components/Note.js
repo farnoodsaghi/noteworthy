@@ -17,11 +17,15 @@ const Note = ({ id, title, content }) => {
   }, [currentNote]);
 
   return (
-    <Link to={`/notes/${currentFolder.id}/${id}`} className="note-links">
+    <Link
+      to={`/notes/${currentFolder.id}/${id}`}
+      className="note-links"
+      onClick={() => findNote(id)}
+    >
       <article className={`container ${isActive && "active"}`}>
         <div className="note-list-item-outer-container">
           <div className="note-list-item-inner-container">
-            <li onClick={() => findNote(id)}>
+            <li>
               <h3>
                 {title === "# " || title.replaceAll(" ", "") === ""
                   ? "A wonderful new note"
