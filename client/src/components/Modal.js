@@ -39,15 +39,17 @@ const Modal = () => {
     <div className={`modal-overlay ${isModalVisible && "show-modal"}`}>
       <div className="modal-container" ref={modalRef}>
         <h3>Create a new folder</h3>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Enter a folder name"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <button>Create</button>
-        </form>
+        <div className="form-container">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Enter a folder name"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <button>Create</button>
+          </form>
+        </div>
       </div>
     </div>
   );
