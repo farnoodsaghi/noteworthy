@@ -76,6 +76,23 @@ const AppProvider = ({ children }) => {
       : getNoteByFolder(currentFolder.id);
   };
 
+  const deleteFolder = (id) => {
+    if (defaultFolderRef.current.id !== id) {
+      setNotesList((prev) => {
+        return prev.filter((note) => {
+          return note.folderId !== id;
+        });
+      });
+      setFolderList((prev) => {
+        return prev.filter((folder) => {
+          return folder.id !== id;
+        });
+      });
+      setCurrentFolder(defaultFolderRef.current);
+      setCurrentNote({});
+    }
+  };
+
   useEffect(() => {
     editNote(updatedNote);
   }, [updatedNote]);
@@ -113,6 +130,7 @@ const AppProvider = ({ children }) => {
         setIsSubmenuOpen,
         submenuLocation,
         setSubmenuLocation,
+        deleteFolder,
       }}
     >
       {children}

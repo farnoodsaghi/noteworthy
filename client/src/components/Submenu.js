@@ -9,6 +9,8 @@ const Submenu = () => {
     isSubmenuOpen,
     submenuLocation,
     setIsSubmenuOpen,
+    deleteFolder,
+    currentFolder,
   } = useGlobalContext();
   const submenuRef = useRef(null, "submenu");
 
@@ -29,6 +31,11 @@ const Submenu = () => {
     setIsSubmenuOpen(false);
   };
 
+  const handleDeleteFolder = () => {
+    deleteFolder(currentFolder.id);
+    setIsSubmenuOpen(false);
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -46,7 +53,7 @@ const Submenu = () => {
           <p>Create new folder</p>
         </a>
       </div>
-      <div className="submenu-link-container">
+      <div className="submenu-link-container" onClick={handleDeleteFolder}>
         <a>
           <span className="submenu-icon">
             <Icon icon="heroicons-outline:folder-remove" />
