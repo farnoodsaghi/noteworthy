@@ -55,10 +55,10 @@ const SingleNote = () => {
           className={`note-icon ${!readerMode && "active"}`}
           onClick={() => setReaderMode(!readerMode)}
         >
-          <Icon icon="ph:note-pencil-bold" />
+          <Icon icon="heroicons-outline:pencil-alt" />
         </span>
         <span className="note-icon" onClick={handleDelete}>
-          <Icon icon="eva:trash-outline" />
+          <Icon icon="heroicons-outline:trash" />
         </span>
       </div>
       {readerMode ? (
