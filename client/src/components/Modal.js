@@ -25,6 +25,7 @@ const Modal = () => {
       return [...prevVal, newFolder];
     });
     setIsModalVisible(false);
+    setInput("");
     navigate(`/notes/${newFolder.id}`);
   };
 

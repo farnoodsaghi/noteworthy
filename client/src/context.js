@@ -17,6 +17,8 @@ const AppProvider = ({ children }) => {
   const [noteByFolderList, setNoteByFolderList] = useState([]);
   const [folderList, setFolderList] = useState([defaultFolderRef.current]);
   const notesRefList = useRef(noteByFolderList);
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  const [submenuLocation, setSubmenuLocation] = useState({});
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -107,6 +109,10 @@ const AppProvider = ({ children }) => {
         currentFolder,
         searchNote,
         deleteNote,
+        isSubmenuOpen,
+        setIsSubmenuOpen,
+        submenuLocation,
+        setSubmenuLocation,
       }}
     >
       {children}
