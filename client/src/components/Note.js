@@ -34,7 +34,7 @@ const Note = ({ id, title, content }) => {
               <p className="note-desc-preview">
                 {content
                   ? removeMarkdown(content)
-                  : "Write away your sorrows..."}
+                  : "Don't keep it all in. Write!"}
               </p>
             </li>
           </div>
