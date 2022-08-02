@@ -12,7 +12,7 @@ const SingleNote = () => {
     useGlobalContext();
 
   const { id, title, content, folderId } = currentNote;
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState("");
   const [readerMode, setReaderMode] = useState(false);
   const [isNoteNull, setIsNoteNull] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +29,6 @@ const SingleNote = () => {
   useEffect(() => {
     const inputArr = inputRef.current.value.split("\n");
     const newTitle = inputArr[0];
-    console.log(newTitle);
     inputArr.shift();
     const newContent = inputRef.current.value.replace(newTitle, "");
     setUpdatedNote({
