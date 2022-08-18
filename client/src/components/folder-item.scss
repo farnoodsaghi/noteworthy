@@ -23,6 +23,7 @@
       height: 1.3rem;
       border-left: 0.188rem solid $secondary-color;
       visibility: hidden;
+      border-radius: 0.25rem;
 
       &.active {
         visibility: visible;

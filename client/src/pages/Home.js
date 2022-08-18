@@ -5,6 +5,8 @@ import AddButton from "../components/AddButton";
 import { Outlet } from "react-router-dom";
 import "./home.scss";
 import Modal from "../components/Modal";
+import Login from "./Login";
+import Signup from "./Signup";
 
 const Home = () => {
   return (
@@ -15,6 +17,8 @@ const Home = () => {
         <AddButton />
       </div>
       <Modal />
+      <Login />
+      <Signup />
       <Outlet />
     </main>
   );

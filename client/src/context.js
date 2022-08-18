@@ -19,6 +19,8 @@ const AppProvider = ({ children }) => {
   const notesRefList = useRef(noteByFolderList);
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
   const [submenuLocation, setSubmenuLocation] = useState({});
+  const [loginModal, setLoginModal] = useState(false);
+  const [signupModal, setSignupModal] = useState(false);
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -131,6 +133,10 @@ const AppProvider = ({ children }) => {
         submenuLocation,
         setSubmenuLocation,
         deleteFolder,
+        loginModal,
+        setLoginModal,
+        signupModal,
+        setSignupModal,
       }}
     >
       {children}

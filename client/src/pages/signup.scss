@@ -1,0 +1,126 @@
+@import "../global.scss";
+
+.signup-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+  z-index: -1;
+
+  .signup-modal-container {
+    background-color: $secondary-color;
+    color: $primary-color;
+    border-radius: 0.25rem;
+    width: 40%;
+    height: 70%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+  }
+  form {
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+
+    .switch-form-btn {
+      cursor: pointer;
+    }
+
+    .signup-form-title {
+      width: 75%;
+
+      h1 {
+        font-size: 2.25rem;
+      }
+
+      p {
+        margin-top: 0.5rem;
+        color: $tertiary-color;
+      }
+    }
+
+    .signup-form-container {
+      position: relative;
+      width: 75%;
+      height: 3.125rem;
+
+      button {
+        margin: 0;
+        background: none;
+        color: $secondary-color;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        background-color: $primary-color;
+        font-size: 1.125rem;
+        width: 100%;
+        height: 3.188rem;
+        border-radius: 0.25rem;
+
+        &:hover {
+          background-color: lighten($primary-color, 10%);
+        }
+      }
+
+      .signup-input {
+        border: 0.1rem solid #ddd;
+        padding: 0.75rem;
+        width: 100%;
+        height: 100%;
+        padding-top: 1.5rem;
+        box-sizing: border-box;
+        border-radius: 0.4rem;
+        font-weight: 300;
+        font-size: 1.125rem;
+      }
+
+      .signup-label {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        font-weight: 300;
+        padding-left: 0.75rem;
+        font-size: 1.125rem;
+        color: $tertiary-color;
+        pointer-events: none;
+
+        .signup-label-text {
+          position: absolute;
+          bottom: 0.8rem;
+          left: 0.75rem;
+          transition: all 0.3s ease;
+        }
+      }
+
+      .signup-input:focus + .signup-label .signup-label-text,
+      .signup-input:valid + .signup-label .signup-label-text {
+        transform: translateY(-80%);
+        font-size: 0.875rem;
+      }
+
+      .signup-input:focus {
+        border: 0.15rem solid $primary-color;
+        box-shadow: 0 0 3px 1px lighten($primary-color, 70%);
+      }
+    }
+  }
+}
+
+.show-modal {
+  visibility: visible;
+  z-index: 2000;
+}
