@@ -1,0 +1,18 @@
+@import "../global.scss";
+
+.signup-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff6363;
+  color: $secondary-color;
+  width: 100%;
+  height: 3.5rem;
+  position: sticky;
+  top: 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten(#ff6363, 3%);
+  }
+}
