@@ -11,6 +11,9 @@ const Submenu = () => {
     setIsSubmenuOpen,
     deleteFolder,
     currentFolder,
+    setIsLoggedIn,
+    isLoggedIn,
+    setLoginModal,
   } = useGlobalContext();
   const submenuRef = useRef(null, "submenu");
 
@@ -33,6 +36,17 @@ const Submenu = () => {
 
   const handleDeleteFolder = () => {
     deleteFolder(currentFolder.id);
+    setIsSubmenuOpen(false);
+  };
+
+  const handleLogOut = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("token");
+    setIsSubmenuOpen(false);
+  };
+
+  const handleLogIn = () => {
+    setLoginModal(true);
     setIsSubmenuOpen(false);
   };
 
@@ -62,12 +76,19 @@ const Submenu = () => {
         </a>
       </div>
       <hr />
-      <div className="submenu-link-container">
+      <div
+        className="submenu-link-container"
+        onClick={isLoggedIn ? handleLogOut : handleLogIn}
+      >
         <a>
           <span className="submenu-icon">
-            <Icon icon="heroicons-outline:logout" />
+            {isLoggedIn ? (
+              <Icon icon="heroicons-outline:logout" />
+            ) : (
+              <Icon icon="heroicons-outline:login" />
+            )}
           </span>
-          <p>Sign out</p>
+          <p>{isLoggedIn ? "Sign out" : "Log in"}</p>
         </a>
       </div>
     </aside>

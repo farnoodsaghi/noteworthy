@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 const AppContext = createContext(null);
@@ -21,6 +22,7 @@ const AppProvider = ({ children }) => {
   const [submenuLocation, setSubmenuLocation] = useState({});
   const [loginModal, setLoginModal] = useState(false);
   const [signupModal, setSignupModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -95,6 +97,22 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const verifyUser = async () => {
+    try {
+      if (!localStorage.token) {
+        setIsLoggedIn(false);
+      } else {
+        const response = await axios("http://localhost:6000/auth/verify", {
+          headers: { token: localStorage.token },
+        });
+        console.log(response.data);
+        response.data ? setIsLoggedIn(true) : setIsLoggedIn(false);
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   useEffect(() => {
     editNote(updatedNote);
   }, [updatedNote]);
@@ -106,6 +124,10 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     searchNote();
   }, [searchInput]);
+
+  useEffect(() => {
+    verifyUser();
+  }, []);
 
   return (
     <AppContext.Provider
@@ -137,6 +159,9 @@ const AppProvider = ({ children }) => {
         setLoginModal,
         signupModal,
         setSignupModal,
+        isLoggedIn,
+        setIsLoggedIn,
+        verifyUser,
       }}
     >
       {children}
