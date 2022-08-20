@@ -14,6 +14,8 @@ const Submenu = () => {
     setIsLoggedIn,
     isLoggedIn,
     setLoginModal,
+    setNotesList,
+    setCurrentNote,
   } = useGlobalContext();
   const submenuRef = useRef(null, "submenu");
 
@@ -43,6 +45,8 @@ const Submenu = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
     setIsSubmenuOpen(false);
+    setNotesList([]);
+    setCurrentNote({});
   };
 
   const handleLogIn = () => {

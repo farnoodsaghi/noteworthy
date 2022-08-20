@@ -2,12 +2,11 @@ const router = require("express").Router();
 const pool = require("../db");
 const authorizeUser = require("../middleware/authorizeUser");
 
-router.get("/notes/:folderId", authorizeUser, async (req, res) => {
+router.get("/notes", authorizeUser, async (req, res) => {
   try {
-    const { folderId } = req.params;
     const user = await pool.query(
-      "SELECT users.username, notes.title, notes.content FROM users LEFT JOIN notes ON users.user_id = notes.user_id WHERE users.user_id = $1 AND folder_id = $2",
-      [req.user.id, folderId]
+      "SELECT users.username, notes.note_id, notes.folder_id, notes.title, notes.content FROM users LEFT JOIN notes ON users.user_id = notes.user_id WHERE users.user_id = $1",
+      [req.user.id]
     );
     res.json(user.rows);
   } catch (e) {

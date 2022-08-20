@@ -31,8 +31,9 @@ const AppProvider = ({ children }) => {
     setCurrentNote(note);
   };
 
-  const editNote = (myNote) => {
+  const editNote = async (myNote) => {
     const { id, title, content, folderId } = myNote;
+
     setNotesList((prev) => {
       return prev.map((note) => {
         if (note.id === id) {
@@ -41,15 +42,40 @@ const AppProvider = ({ children }) => {
         return note;
       });
     });
+
+    try {
+      const response = await axios.put(
+        `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
+        JSON.stringify({ title, content }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            token: localStorage.token,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
-  const deleteNote = (id) => {
+  const deleteNote = async (myNote) => {
+    const { id, folderId } = myNote;
+
     setNotesList((prev) => {
       return prev.filter((note) => {
         return note.id !== id;
       });
     });
     setCurrentNote({});
+    try {
+      const response = await axios.delete(
+        `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
+        { headers: { token: localStorage.token } }
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
   const getNoteByFolder = (id) => {
@@ -113,6 +139,43 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const saveUntrackedNotes = async () => {
+    try {
+      for (let note of notesList) {
+        const { id, title, content, folderId } = note;
+        const response = await axios.post(
+          `http://localhost:6000/dashboard/notes/${folderId}`,
+          JSON.stringify({ noteId: id, title, content }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: localStorage.token,
+            },
+          }
+        );
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  const getAllNotesFromDb = async () => {
+    try {
+      const response = await axios("http://localhost:6000/dashboard/notes", {
+        headers: { token: localStorage.token },
+      });
+      if (response.data[0].note_id) {
+        const newList = response.data.map((note) => {
+          const { note_id, folder_id, title, content } = note;
+          return { id: note_id, folderId: folder_id, title, content };
+        });
+        setNotesList(newList);
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   useEffect(() => {
     editNote(updatedNote);
   }, [updatedNote]);
@@ -162,6 +225,8 @@ const AppProvider = ({ children }) => {
         isLoggedIn,
         setIsLoggedIn,
         verifyUser,
+        saveUntrackedNotes,
+        getAllNotesFromDb,
       }}
     >
       {children}

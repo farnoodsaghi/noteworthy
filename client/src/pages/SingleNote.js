@@ -40,7 +40,7 @@ const SingleNote = () => {
   }, [note]);
 
   const handleDelete = () => {
-    deleteNote(currentNote.id);
+    deleteNote(currentNote);
     navigate(`/notes/${currentFolder.id}`);
   };
 

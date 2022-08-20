@@ -4,8 +4,14 @@ import "./signup.scss";
 import { useGlobalContext } from "../context";
 
 const Signup = () => {
-  const { setLoginModal, signupModal, setSignupModal, setIsLoggedIn } =
-    useGlobalContext();
+  const {
+    setLoginModal,
+    signupModal,
+    setSignupModal,
+    setIsLoggedIn,
+    saveUntrackedNotes,
+    getAllNotesFromDb,
+  } = useGlobalContext();
   const signupRef = useRef(null);
   const [inputs, setInputs] = useState({ name: "", email: "", password: "" });
 
@@ -40,6 +46,8 @@ const Signup = () => {
       setSignupModal(false);
       setInputs({ name: "", email: "", password: "" });
       setIsLoggedIn(true);
+      saveUntrackedNotes();
+      getAllNotesFromDb();
     } catch (e) {
       console.log(e.response);
     }
