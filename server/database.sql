@@ -7,6 +7,12 @@ CREATE TABLE notes (
     title TEXT,
     content TEXT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (folder_id) REFERENCES folders(folder_id)
+);
+
+CREATE TABLE folders (
+    folder_id UUID NOT NULL PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
 );
 
 CREATE TABLE users(
