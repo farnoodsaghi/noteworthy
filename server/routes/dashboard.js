@@ -5,7 +5,7 @@ const authorizeUser = require("../middleware/authorizeUser");
 router.get("/notes/:folderId", authorizeUser, async (req, res) => {
   try {
     const user = await pool.query(
-      "SELECT users.username, notes.note_id, folders.folder_id, notes.title, notes.content FROM users LEFT JOIN folders ON users.user_id = folders.user_id LEFT JOIN notes ON users.user_id = notes.user_id WHERE users.user_id = $1 AND folders.folder_id = notes.folder_id",
+      "SELECT users.username, notes.note_id, folders.folder_id, notes.title, notes.content FROM users LEFT JOIN folders ON users.user_id = folders.user_id LEFT JOIN notes ON users.user_id = notes.user_id WHERE users.user_id = $1 AND folders.folder_id = notes.folder_id ORDER BY notes.date",
       [req.user.id]
     );
     res.json(user.rows);
