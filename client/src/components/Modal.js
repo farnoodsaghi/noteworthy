@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { useGlobalContext } from "../context";
 import { useNavigate } from "react-router-dom";
 import "./modal.scss";
 
 const Modal = () => {
-  const { setFolderList, isModalVisible, setIsModalVisible } =
+  const { setFolderList, isModalVisible, setIsModalVisible, isLoggedIn } =
     useGlobalContext();
   const [input, setInput] = useState("");
   const modalRef = useRef(null);
@@ -18,7 +19,7 @@ const Modal = () => {
     };
   }, [modalRef]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newFolder = { name: input, id: uuidv4() };
     setFolderList((prevVal) => {
@@ -27,6 +28,24 @@ const Modal = () => {
     setIsModalVisible(false);
     setInput("");
     navigate(`/notes/${newFolder.id}`);
+
+    if (isLoggedIn) {
+      const { id, name } = newFolder;
+      try {
+        const response = await axios.post(
+          `http://localhost:6000/dashboard/notes`,
+          JSON.stringify({ folderId: id, name }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: localStorage.token,
+            },
+          }
+        );
+      } catch (e) {
+        console.log(e.response);
+      }
+    }
   };
 
   const handleClickOutside = (e) => {

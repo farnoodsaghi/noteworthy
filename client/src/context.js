@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
     id: uuidv4(),
     name: "All Notes",
   });
+  const accountDefaultFolder = useRef(null);
   const [searchInput, setSearchInput] = useState("");
   const [notesList, setNotesList] = useState([]);
   const [currentNote, setCurrentNote] = useState({});
@@ -23,6 +24,7 @@ const AppProvider = ({ children }) => {
   const [loginModal, setLoginModal] = useState(false);
   const [signupModal, setSignupModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -43,19 +45,21 @@ const AppProvider = ({ children }) => {
       });
     });
 
-    try {
-      const response = await axios.put(
-        `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
-        JSON.stringify({ title, content }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.token,
-          },
-        }
-      );
-    } catch (e) {
-      console.log(e.response);
+    if (isLoggedIn) {
+      try {
+        const response = await axios.put(
+          `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
+          JSON.stringify({ title, content }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: localStorage.token,
+            },
+          }
+        );
+      } catch (e) {
+        console.log(e.response);
+      }
     }
   };
 
@@ -68,25 +72,27 @@ const AppProvider = ({ children }) => {
       });
     });
     setCurrentNote({});
-    try {
-      const response = await axios.delete(
-        `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
-        { headers: { token: localStorage.token } }
-      );
-    } catch (e) {
-      console.log(e.response);
+    if (isLoggedIn) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
+          { headers: { token: localStorage.token } }
+        );
+      } catch (e) {
+        console.log(e.response);
+      }
     }
   };
 
   const getNoteByFolder = (id) => {
     setNoteByFolderList(() => {
-      const list =
+      let list =
+        (isLoggedIn && accountDefaultFolder.current === id) ||
         defaultFolderRef.current.id === id
           ? notesList
           : notesList.filter((note) => {
               return note.folderId === id;
             });
-
       notesRefList.current = list;
       return list;
     });
@@ -106,8 +112,11 @@ const AppProvider = ({ children }) => {
       : getNoteByFolder(currentFolder.id);
   };
 
-  const deleteFolder = (id) => {
-    if (defaultFolderRef.current.id !== id) {
+  const deleteFolder = async (id) => {
+    if (
+      defaultFolderRef.current.id !== id &&
+      accountDefaultFolder.current !== id
+    ) {
       setNotesList((prev) => {
         return prev.filter((note) => {
           return note.folderId !== id;
@@ -118,8 +127,22 @@ const AppProvider = ({ children }) => {
           return folder.id !== id;
         });
       });
-      setCurrentFolder(defaultFolderRef.current);
+      setCurrentFolder(
+        isLoggedIn
+          ? { id: accountDefaultFolder.current, name: "All Notes" }
+          : defaultFolderRef.current
+      );
       setCurrentNote({});
+      if (isLoggedIn) {
+        try {
+          const response = await axios.delete(
+            `http://localhost:6000/dashboard/notes/${id}`,
+            { headers: { token: localStorage.token } }
+          );
+        } catch (e) {
+          console.log(e.response);
+        }
+      }
     }
   };
 
@@ -143,8 +166,12 @@ const AppProvider = ({ children }) => {
     try {
       for (let note of notesList) {
         const { id, title, content, folderId } = note;
+        const newFolderId =
+          folderId === defaultFolderRef.current.id
+            ? accountDefaultFolder.current
+            : folderId;
         const response = await axios.post(
-          `http://localhost:6000/dashboard/notes/${folderId}`,
+          `http://localhost:6000/dashboard/notes/${newFolderId}`,
           JSON.stringify({ noteId: id, title, content }),
           {
             headers: {
@@ -154,6 +181,34 @@ const AppProvider = ({ children }) => {
           }
         );
       }
+      setLoading(false);
+    } catch (e) {
+      console.log(e.response);
+      setLoading(false);
+    }
+  };
+
+  const saveUntrackedFolders = async () => {
+    setLoading(true);
+    try {
+      for (let folder of folderList) {
+        const { id, name } = folder;
+        if (
+          id !== accountDefaultFolder.current &&
+          id !== defaultFolderRef.current.id
+        ) {
+          const response = await axios.post(
+            `http://localhost:6000/dashboard/notes`,
+            JSON.stringify({ folderId: id, name }),
+            {
+              headers: {
+                "Content-Type": "application/json",
+                token: localStorage.token,
+              },
+            }
+          );
+        }
+      }
     } catch (e) {
       console.log(e.response);
     }
@@ -161,15 +216,35 @@ const AppProvider = ({ children }) => {
 
   const getAllNotesFromDb = async () => {
     try {
-      const response = await axios("http://localhost:6000/dashboard/notes", {
-        headers: { token: localStorage.token },
-      });
+      const response = await axios(
+        `http://localhost:6000/dashboard/notes/${defaultFolderRef.current.id}`,
+        {
+          headers: { token: localStorage.token },
+        }
+      );
       if (response.data[0].note_id) {
         const newList = response.data.map((note) => {
           const { note_id, folder_id, title, content } = note;
           return { id: note_id, folderId: folder_id, title, content };
         });
         setNotesList(newList);
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  const getAllFoldersFromDb = async () => {
+    try {
+      const response = await axios(`http://localhost:6000/dashboard/notes`, {
+        headers: { token: localStorage.token },
+      });
+      if (response.data[0].folder_id) {
+        const newList = response.data.map((folder) => {
+          const { folder_id, name } = folder;
+          return { id: folder_id, name };
+        });
+        setFolderList(newList);
       }
     } catch (e) {
       console.log(e.response);
@@ -191,6 +266,29 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     verifyUser();
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      accountDefaultFolder.current = localStorage.defaultFolder;
+      setCurrentFolder({ id: accountDefaultFolder.current, name: "All Notes" });
+      saveUntrackedFolders();
+      saveUntrackedNotes();
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("defaultFolder");
+      setNotesList([]);
+      setCurrentNote({});
+      setFolderList([defaultFolderRef.current]);
+      setCurrentFolder(defaultFolderRef.current);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (!loading) {
+      getAllFoldersFromDb();
+      getAllNotesFromDb();
+    }
+  }, [loading]);
 
   return (
     <AppContext.Provider
@@ -227,6 +325,9 @@ const AppProvider = ({ children }) => {
         verifyUser,
         saveUntrackedNotes,
         getAllNotesFromDb,
+        saveUntrackedFolders,
+        getAllFoldersFromDb,
+        accountDefaultFolder,
       }}
     >
       {children}

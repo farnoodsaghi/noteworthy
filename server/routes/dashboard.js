@@ -2,10 +2,24 @@ const router = require("express").Router();
 const pool = require("../db");
 const authorizeUser = require("../middleware/authorizeUser");
 
+router.get("/notes/:folderId", authorizeUser, async (req, res) => {
+  try {
+    const user = await pool.query(
+      "SELECT users.username, notes.note_id, folders.folder_id, notes.title, notes.content FROM users LEFT JOIN folders ON users.user_id = folders.user_id LEFT JOIN notes ON users.user_id = notes.user_id WHERE users.user_id = $1 AND folders.folder_id = notes.folder_id",
+      [req.user.id]
+    );
+    res.json(user.rows);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+// Get all folders
 router.get("/notes", authorizeUser, async (req, res) => {
   try {
     const user = await pool.query(
-      "SELECT users.username, notes.note_id, notes.folder_id, notes.title, notes.content FROM users LEFT JOIN notes ON users.user_id = notes.user_id WHERE users.user_id = $1",
+      "SELECT users.username, folders.folder_id, folders.name FROM users LEFT JOIN folders ON users.user_id = folders.user_id WHERE users.user_id = $1",
       [req.user.id]
     );
     res.json(user.rows);
@@ -25,6 +39,21 @@ router.post("/notes/:folderId", authorizeUser, async (req, res) => {
       [req.user.id, noteId, folderId, title, content]
     );
     res.json(newNote.rows[0]);
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json("Server Error");
+  }
+});
+
+// Add single folders
+router.post("/notes", authorizeUser, async (req, res) => {
+  try {
+    const { folderId, name } = req.body;
+    const newFolder = await pool.query(
+      "INSERT INTO folders (user_id, folder_id, name) VALUES ($1, $2, $3) RETURNING *",
+      [req.user.id, folderId, name]
+    );
+    res.json(newFolder.rows[0]);
   } catch (e) {
     console.log(e.message);
     res.status(500).json("Server Error");
@@ -64,7 +93,7 @@ router.delete("/notes/:folderId/:noteId", authorizeUser, async (req, res) => {
     }
 
     res.json("Note was deleted");
-  } catch (error) {
+  } catch (e) {
     console.log(e.message);
     res.status(500).json("Server Error");
   }
@@ -74,16 +103,20 @@ router.delete("/notes/:folderId/:noteId", authorizeUser, async (req, res) => {
 router.delete("/notes/:folderId", authorizeUser, async (req, res) => {
   try {
     const { folderId } = req.params;
-    const deleteFolder = await pool.query(
+    const deleteFolderNotes = await pool.query(
       "DELETE FROM notes WHERE folder_id = $1 AND user_id = $2 RETURNING *",
       [folderId, req.user.id]
     );
-    if (deleteFolder.rows.length === 0) {
+    const deleteFolder = await pool.query(
+      "DELETE FROM folders WHERE folder_id = $1 AND user_id = $2 RETURNING *",
+      [folderId, req.user.id]
+    );
+    if (deleteFolder.rows.length === 0 || deleteFolderNotes.rows.length === 0) {
       return res.json("This folder is not yours");
     }
 
     res.json("Folder was deleted");
-  } catch (error) {
+  } catch (e) {
     console.log(e.message);
     res.status(500).json("Server Error");
   }

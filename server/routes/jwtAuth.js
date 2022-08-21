@@ -24,8 +24,16 @@ router.post("/register", async (req, res) => {
       [username, email, hashedPassword]
     );
 
-    const token = generateJwtToken(newUser.rows[0].user_id);
-    res.json({ token });
+    const userId = newUser.rows[0].user_id;
+    const token = generateJwtToken(userId);
+    const defaultFolder = newUser.rows[0].default_folder;
+
+    const newDefaultFolder = await pool.query(
+      "INSERT INTO folders (folder_id, user_id, name) VALUES ($1, $2, $3) RETURNING *",
+      [defaultFolder, userId, "All Notes"]
+    );
+
+    res.json({ token, defaultFolder });
   } catch (e) {
     console.log(e.message);
     res.status(500).json("Server Error");
@@ -54,8 +62,9 @@ router.post("/login", async (req, res) => {
     }
 
     const token = generateJwtToken(user.rows[0].user_id);
+    const defaultFolder = user.rows[0].default_folder;
 
-    res.json({ token });
+    res.json({ token, defaultFolder });
   } catch (e) {
     console.log(e.message);
     res.status(500).json("Server Error");

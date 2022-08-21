@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { useGlobalContext } from "../context";
 import { Icon } from "@iconify/react";
 import "./submenu.scss";
@@ -14,8 +14,6 @@ const Submenu = () => {
     setIsLoggedIn,
     isLoggedIn,
     setLoginModal,
-    setNotesList,
-    setCurrentNote,
   } = useGlobalContext();
   const submenuRef = useRef(null, "submenu");
 
@@ -43,10 +41,8 @@ const Submenu = () => {
 
   const handleLogOut = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("token");
     setIsSubmenuOpen(false);
-    setNotesList([]);
-    setCurrentNote({});
+    window.location.reload();
   };
 
   const handleLogIn = () => {
