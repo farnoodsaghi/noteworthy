@@ -28,6 +28,7 @@ const AppProvider = ({ children }) => {
   const [openEditor, setOpenEditor] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const sidebarRef = useRef(null);
+  const [pageDidMount, setPageDidMount] = useState(false);
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -276,13 +277,21 @@ const AppProvider = ({ children }) => {
       setCurrentFolder({ id: accountDefaultFolder.current, name: "All Notes" });
       saveUntrackedFolders();
       saveUntrackedNotes();
-    } else {
-      localStorage.removeItem("token");
-      localStorage.removeItem("defaultFolder");
-      setNotesList([]);
-      setCurrentNote({});
-      setFolderList([defaultFolderRef.current]);
-      setCurrentFolder(defaultFolderRef.current);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      if (!pageDidMount) {
+        setPageDidMount(true);
+      } else {
+        localStorage.removeItem("token");
+        localStorage.removeItem("defaultFolder");
+        setNotesList([]);
+        setCurrentNote({});
+        setFolderList([defaultFolderRef.current]);
+        setCurrentFolder(defaultFolderRef.current);
+      }
     }
   }, [isLoggedIn]);
 
@@ -292,6 +301,10 @@ const AppProvider = ({ children }) => {
       getAllNotesFromDb();
     }
   }, [loading]);
+
+  useEffect(() => {
+    setCurrentNote({});
+  }, [currentFolder]);
 
   return (
     <AppContext.Provider
