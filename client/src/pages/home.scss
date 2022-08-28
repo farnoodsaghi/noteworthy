@@ -47,3 +47,29 @@ main {
     }
   }
 }
+
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+  main {
+    // margin: 0 !important;
+    width: 70% !important;
+    margin-left: 0;
+    margin-left: 30% !important;
+
+    &.on-mobile-maximize {
+      margin: 0 !important;
+      width: 100% !important;
+    }
+    .main-container {
+      width: 70vw;
+      border: none !important;
+      border-width: 0;
+      border: 0;
+      height: 100vh;
+      transition: all 0.3s ease;
+
+      &.on-mobile-hide {
+        display: none;
+      }
+    }
+  }
+}

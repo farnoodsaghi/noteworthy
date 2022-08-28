@@ -6,7 +6,8 @@ import Submenu from "./Submenu";
 import { useGlobalContext } from "../context";
 
 const Sidebar = () => {
-  const { toggleSidebar, setToggleSidebar, sidebarRef } = useGlobalContext();
+  const { toggleSidebar, setToggleSidebar, sidebarRef, openEditor } =
+    useGlobalContext();
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -29,7 +30,9 @@ const Sidebar = () => {
 
   return (
     <section
-      className={`sidebar ${toggleSidebar && "on-mobile-show"}`}
+      className={`sidebar ${toggleSidebar && "on-mobile-show"} ${
+        openEditor && "on-mobile-hide"
+      }`}
       onTouchStart={(e) => handleTouchStart(e)}
       onTouchMove={(e) => handleTouchMove(e)}
       onTouchEnd={() => handleTouchEnd()}

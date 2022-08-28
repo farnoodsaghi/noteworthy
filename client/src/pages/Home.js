@@ -12,7 +12,7 @@ import { useGlobalContext } from "../context";
 const Home = () => {
   const { openEditor, isLoggedIn } = useGlobalContext();
   return (
-    <main>
+    <main className={`${openEditor && "on-mobile-maximize"}`}>
       <div
         className={`main-container ${openEditor && "on-mobile-hide"} ${
           !isLoggedIn && "slim"
