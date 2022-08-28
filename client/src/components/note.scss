@@ -37,3 +37,34 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .container {
+    .note-list-item-outer-container {
+      display: flex;
+      text-align: left;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin: 0 10%;
+
+      .note-list-item-inner-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        // height: 6.5rem;
+        h3 {
+          font-size: 1.452rem;
+        }
+      }
+
+      .note-desc-preview {
+        font-size: 1.21rem;
+        color: $tertiary-color !important;
+        font-weight: 200;
+        letter-spacing: normal !important;
+      }
+    }
+  }
+}

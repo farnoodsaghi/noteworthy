@@ -1,20 +1,49 @@
 @import "../global.scss";
 
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 36%;
-  height: 100%;
-  min-height: 100vh;
-  border-right: 0.094rem solid $primary-color !important;
+main {
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 36%;
+    min-height: 100vh;
+    max-height: 100vh;
+    border-right: 0.094rem solid $primary-color !important;
+    overflow: auto !important;
+    // position: sticky;
+    // top: 0;
 
-  > * {
-    width: 100%;
+    &.slim {
+      min-height: calc(100vh - 3.5rem) !important;
+      max-height: calc(100vh - 3.5rem) !important;
+      // top: 3.5rem;
+    }
+    > * {
+      width: 100%;
+    }
+
+    button {
+      align-self: flex-end;
+    }
   }
+}
 
-  button {
-    align-self: flex-end;
+@media only screen and (max-width: 768px) {
+  main {
+    margin: 0 !important;
+    width: 100% !important;
+    .main-container {
+      width: 100vw;
+      border: none !important;
+      border-width: 0;
+      border: 0;
+      height: 100vh;
+      transition: all 0.3s ease;
+
+      &.on-mobile-hide {
+        display: none;
+      }
+    }
   }
 }

@@ -23,3 +23,14 @@
     font-size: 1.688rem;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .add-btn {
+    width: 5rem !important;
+    height: 5rem !important;
+
+    svg {
+      font-size: 1.92rem;
+    }
+  }
+}

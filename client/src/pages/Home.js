@@ -7,11 +7,17 @@ import "./home.scss";
 import Modal from "../components/Modal";
 import Login from "./Login";
 import Signup from "./Signup";
+import { useGlobalContext } from "../context";
 
 const Home = () => {
+  const { openEditor, isLoggedIn } = useGlobalContext();
   return (
     <main>
-      <div className="main-container">
+      <div
+        className={`main-container ${openEditor && "on-mobile-hide"} ${
+          !isLoggedIn && "slim"
+        }`}
+      >
         <SearchBar />
         <NotesList />
         <AddButton />

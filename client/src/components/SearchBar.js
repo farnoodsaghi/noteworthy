@@ -4,7 +4,8 @@ import { Icon } from "@iconify/react";
 import "./search-bar.scss";
 
 const SearchBar = () => {
-  const { searchInput, setSearchInput } = useGlobalContext();
+  const { searchInput, setSearchInput, setToggleSidebar, toggleSidebar } =
+    useGlobalContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,6 +17,12 @@ const SearchBar = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div
+        className="hamburger"
+        onClick={() => setToggleSidebar(!toggleSidebar)}
+      >
+        <Icon icon="quill:hamburger" />
+      </div>
       <div className="search-bar">
         <Icon icon="bx:search" className="search-icon" />
         <input

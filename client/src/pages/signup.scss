@@ -124,3 +124,11 @@
   visibility: visible;
   z-index: 2000;
 }
+
+@media only screen and (max-width: 768px) {
+  .signup-modal-overlay {
+    .signup-modal-container {
+      width: 90%;
+    }
+  }
+}

@@ -25,6 +25,8 @@ const AppProvider = ({ children }) => {
   const [signupModal, setSignupModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [openEditor, setOpenEditor] = useState(false);
+  const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -328,6 +330,10 @@ const AppProvider = ({ children }) => {
         saveUntrackedFolders,
         getAllFoldersFromDb,
         accountDefaultFolder,
+        openEditor,
+        setOpenEditor,
+        toggleSidebar,
+        setToggleSidebar,
       }}
     >
       {children}

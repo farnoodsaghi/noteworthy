@@ -16,3 +16,13 @@
     background-color: lighten(#ff6363, 3%);
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .signup-prompt {
+    height: 5rem;
+    p {
+      font-size: 1.21rem;
+      margin: 0.5rem;
+    }
+  }
+}
