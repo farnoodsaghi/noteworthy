@@ -77,7 +77,7 @@ const Submenu = () => {
       </div>
       <hr />
       <div
-        className="submenu-link-container"
+        className={`submenu-link-container ${isLoggedIn && "logged-in"}`}
         onClick={isLoggedIn ? handleLogOut : handleLogIn}
       >
         <a>
