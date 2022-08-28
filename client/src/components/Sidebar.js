@@ -6,7 +6,7 @@ import Submenu from "./Submenu";
 import { useGlobalContext } from "../context";
 
 const Sidebar = () => {
-  const { toggleSidebar, setToggleSidebar } = useGlobalContext();
+  const { toggleSidebar, setToggleSidebar, sidebarRef } = useGlobalContext();
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
@@ -34,6 +34,7 @@ const Sidebar = () => {
       onTouchMove={(e) => handleTouchMove(e)}
       onTouchEnd={() => handleTouchEnd()}
       onClick={() => setToggleSidebar(true)}
+      ref={sidebarRef}
     >
       <div className="logo-container">
         <h1 className="logo">noteworthy</h1>

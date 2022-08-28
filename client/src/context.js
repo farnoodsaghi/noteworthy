@@ -27,6 +27,7 @@ const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [openEditor, setOpenEditor] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
+  const sidebarRef = useRef(null);
 
   const findNote = (id) => {
     const note = noteByFolderList.find((note) => {
@@ -334,6 +335,7 @@ const AppProvider = ({ children }) => {
         setOpenEditor,
         toggleSidebar,
         setToggleSidebar,
+        sidebarRef,
       }}
     >
       {children}
