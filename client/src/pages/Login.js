@@ -8,6 +8,7 @@ const Login = () => {
     useGlobalContext();
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const loginRef = useRef(null);
+  const [error, setError] = useState([]);
 
   const { email, password } = inputs;
 
@@ -37,6 +38,12 @@ const Login = () => {
       setIsLoggedIn(true);
     } catch (e) {
       console.log(e.response);
+      if (
+        e.response.data.hasOwnProperty("errors") &&
+        e.response.data.errors.length > 0
+      ) {
+        setError(e.response.data.errors);
+      }
     }
   };
 
@@ -87,6 +94,11 @@ const Login = () => {
               <span className="login-label-text">Password</span>
             </label>
           </div>
+          {error.length > 0 && (
+            <div className="login-form-container error">
+              <p>{error[0].msg}</p>
+            </div>
+          )}
           <div className="login-form-container">
             <button>Log in</button>
           </div>

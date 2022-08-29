@@ -54,6 +54,17 @@
       width: 75%;
       height: 3.125rem;
 
+      &.error {
+        height: unset;
+        margin: 0 0 -1.5rem;
+        color: #ff6363;
+        p {
+          font-size: 1rem;
+          margin-bottom: 0.2rem;
+          margin-left: 0.1rem;
+        }
+      }
+
       button {
         margin: 0;
         background: none;
