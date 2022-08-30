@@ -1,3 +1,9 @@
-// .note-list {
-//   overflow-y: auto;
-// }
+.note-list {
+  ul {
+    list-style: none;
+  }
+
+  ul li::before {
+    content: "";
+  }
+}

@@ -69,10 +69,47 @@
 
     ul {
       list-style: none;
+      font-weight: 300;
+    }
+
+    ul li::before {
+      content: "\2022";
+      color: $primary-color;
+      display: inline-block;
+      width: 1rem;
+      margin-left: -1rem;
+    }
+
+    ol {
+      font-weight: 300;
     }
 
     strong {
       font-weight: 500;
+    }
+
+    blockquote {
+      font-size: 2rem;
+      font-style: italic;
+      border-left: 5px solid $primary-color;
+      border-radius: 0.25rem;
+      background-color: #c7c6c6;
+      color: $primary-color;
+      padding-left: 2rem;
+      line-height: 2;
+      margin-bottom: 1.5rem;
+    }
+    blockquote ::first-letter {
+      text-transform: uppercase;
+    }
+    pre {
+      background: #c7c6c6;
+      display: inline-block;
+      font-size: 0.9rem;
+      border-radius: 0.25rem;
+      padding: 1rem 2rem;
+      color: $primary-color;
+      margin-bottom: 1.5rem;
     }
   }
 }

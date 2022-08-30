@@ -88,7 +88,7 @@ const SingleNote = () => {
       </div>
       {readerMode ? (
         <ReactMarkdown
-          children={note.replace(/\n/gi, "\n &nbsp;")}
+          children={note}
           remarkPlugins={[remarkGfm, remarkBreaks]}
           className="note-body-reader"
         />
