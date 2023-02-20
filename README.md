@@ -10,7 +10,6 @@
 brew install postgresql@13
 brew services start postgresql@13
 brew link postgresql@13 --force
-brew services start postgresql
 ```
 
 ### 2. Enter the psql shell like so:
