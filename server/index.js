@@ -10,4 +10,4 @@ app.use(cors());
 app.use("/auth", require("./routes/jwtAuth"));
 app.use("/dashboard", require("./routes/dashboard"));
 
-app.listen("6000", () => console.log("Server started on port 6000"));
+app.listen("3001", () => console.log("Server started on port 3001"));

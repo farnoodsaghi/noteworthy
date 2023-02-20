@@ -52,7 +52,7 @@ const AppProvider = ({ children }) => {
     if (isLoggedIn) {
       try {
         const response = await axios.put(
-          `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
+          `http://localhost:3001/dashboard/notes/${folderId}/${id}`,
           JSON.stringify({ title, content }),
           {
             headers: {
@@ -79,7 +79,7 @@ const AppProvider = ({ children }) => {
     if (isLoggedIn) {
       try {
         const response = await axios.delete(
-          `http://localhost:6000/dashboard/notes/${folderId}/${id}`,
+          `http://localhost:3001/dashboard/notes/${folderId}/${id}`,
           { headers: { token: localStorage.token } }
         );
       } catch (e) {
@@ -140,7 +140,7 @@ const AppProvider = ({ children }) => {
       if (isLoggedIn) {
         try {
           const response = await axios.delete(
-            `http://localhost:6000/dashboard/notes/${id}`,
+            `http://localhost:3001/dashboard/notes/${id}`,
             { headers: { token: localStorage.token } }
           );
         } catch (e) {
@@ -155,7 +155,7 @@ const AppProvider = ({ children }) => {
       if (!localStorage.token) {
         setIsLoggedIn(false);
       } else {
-        const response = await axios("http://localhost:6000/auth/verify", {
+        const response = await axios("http://localhost:3001/auth/verify", {
           headers: { token: localStorage.token },
         });
         console.log(response.data);
@@ -175,7 +175,7 @@ const AppProvider = ({ children }) => {
             ? accountDefaultFolder.current
             : folderId;
         const response = await axios.post(
-          `http://localhost:6000/dashboard/notes/${newFolderId}`,
+          `http://localhost:3001/dashboard/notes/${newFolderId}`,
           JSON.stringify({ noteId: id, title, content }),
           {
             headers: {
@@ -202,7 +202,7 @@ const AppProvider = ({ children }) => {
           id !== defaultFolderRef.current.id
         ) {
           const response = await axios.post(
-            `http://localhost:6000/dashboard/notes`,
+            `http://localhost:3001/dashboard/notes`,
             JSON.stringify({ folderId: id, name }),
             {
               headers: {
@@ -221,7 +221,7 @@ const AppProvider = ({ children }) => {
   const getAllNotesFromDb = async () => {
     try {
       const response = await axios(
-        `http://localhost:6000/dashboard/notes/${defaultFolderRef.current.id}`,
+        `http://localhost:3001/dashboard/notes/${defaultFolderRef.current.id}`,
         {
           headers: { token: localStorage.token },
         }
@@ -240,7 +240,7 @@ const AppProvider = ({ children }) => {
 
   const getAllFoldersFromDb = async () => {
     try {
-      const response = await axios(`http://localhost:6000/dashboard/notes`, {
+      const response = await axios(`http://localhost:3001/dashboard/notes`, {
         headers: { token: localStorage.token },
       });
       if (response.data[0].folder_id) {

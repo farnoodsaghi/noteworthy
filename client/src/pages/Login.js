@@ -22,7 +22,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:6000/auth/login",
+        "http://localhost:3001/auth/login",
         JSON.stringify({ email, password }),
         {
           headers: {

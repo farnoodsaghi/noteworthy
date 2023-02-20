@@ -33,7 +33,7 @@ const Modal = () => {
       const { id, name } = newFolder;
       try {
         const response = await axios.post(
-          `http://localhost:6000/dashboard/notes`,
+          `http://localhost:3001/dashboard/notes`,
           JSON.stringify({ folderId: id, name }),
           {
             headers: {

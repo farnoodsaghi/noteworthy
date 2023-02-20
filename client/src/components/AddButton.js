@@ -29,7 +29,7 @@ const SearchBar = () => {
       const { id, title, content } = newNote;
       try {
         const response = await axios.post(
-          `http://localhost:6000/dashboard/notes/${currentFolder.id}`,
+          `http://localhost:3001/dashboard/notes/${currentFolder.id}`,
           JSON.stringify({ noteId: id, title, content }),
           {
             headers: {
