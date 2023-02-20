@@ -40,7 +40,7 @@ CREATE TABLE notes (note_id UUID NOT NULL PRIMARY KEY,user_id UUID NOT NULL,fold
 
 ---
 
-## Install client dependencies and run the client app like so:
+## Install client dependencies and run the client app at `http://localhost:3000` like so:
 ```
 cd client
 npm install
